@@ -19,6 +19,7 @@ class LandingPage extends Component {
   }
 
   render() {
+    console.log('====> the landing page has rendered')
     const { appContext } = this.props;
     return (
       <>

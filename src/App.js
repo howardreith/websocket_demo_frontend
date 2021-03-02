@@ -19,6 +19,7 @@ function renderApplication() {
 
 class App extends Component {
   render() {
+    console.log('====> the app has rendered')
     return (
       <ContextProvider>
         <AppContext.Consumer>
