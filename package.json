@@ -1,5 +1,6 @@
 {
   "name": "frontend",
+  "homepage": "http://howardreith.github.io/websocket_demo_frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -27,12 +28,16 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "gh-pages": "^3.1.0",
     "jest": "^24.9.0",
     "react-test-renderer": "^16.14.0"
   },
   "scripts": {
+    "build": "react-scripts build",
     "test": "jest",
-    "start": "react-scripts start"
+    "start": "react-scripts start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [

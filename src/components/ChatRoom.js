@@ -7,6 +7,8 @@ import withAppContext from '../withAppContext';
 import { AppContextPropType } from '../helpers/PropTypeConstants';
 
 const backendUrl = process.env.REACT_APP_BACKEND_URL;
+// TODO remove this
+console.log('====> backendUrl', backendUrl)
 const socket = io(backendUrl);
 
 export const StyledChatRoom = styled.div`
