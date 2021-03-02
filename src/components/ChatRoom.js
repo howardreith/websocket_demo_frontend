@@ -6,7 +6,8 @@ import { getLast50Messages } from './backend';
 import withAppContext from '../withAppContext';
 import { AppContextPropType } from '../helpers/PropTypeConstants';
 
-const backendUrl = process.env.REACT_APP_BACKEND_URL;
+// const backendUrl = process.env.REACT_APP_BACKEND_URL;
+const backendUrl = 'https://reithwebsocketdemo.herokuapp.com/5000';
 // TODO remove this
 console.log('====> backendUrl', backendUrl)
 const socket = io(backendUrl);
