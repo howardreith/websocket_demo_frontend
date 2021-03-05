@@ -1,5 +1,4 @@
 const backendUrl = window.location.href.includes('localhost') ? 'http://localhost:8080' : 'https://reithwebsocketdemo.herokuapp.com';
-// const backendUrl = process.env.REACT_APP_BACKEND_URL
 
 export async function signInWithUsername(username) {
   const result = await fetch(`${backendUrl}/signin`, {
