@@ -7,7 +7,7 @@ import withAppContext from '../withAppContext';
 import { AppContextPropType } from '../helpers/PropTypeConstants';
 
 // const backendUrl = process.env.REACT_APP_BACKEND_URL;
-const backendUrl = window.location.href.includes('localhost') ? 'http://localhost:8080' : 'https://reithwebsocketdemo.herokuapp.com/80';
+const backendUrl = window.location.href.includes('localhost') ? 'http://localhost:8080' : 'https://reithwebsocketdemo.herokuapp.com';
 // TODO remove this
 console.log('====> backendUrl', backendUrl)
 const socket = io(backendUrl);
