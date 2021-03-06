@@ -15,7 +15,6 @@ describe('App', () => {
   });
   it('should render the app', () => {
     const sut = sutFactory();
-    console.log(sut.debug());
-    expect(true).toBe(false);
+    expect(sut.find(App).exists()).toBeTruthy();
   });
 });

@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
     "es6": true,
+    "jest/globals": true
   },
   extends: [
     'plugin:react/recommended',
@@ -16,8 +17,10 @@ module.exports = {
   },
   plugins: [
     'react',
+    'jest',
   ],
   rules: {
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    "react/jsx-props-no-spreading": "off"
   },
 };

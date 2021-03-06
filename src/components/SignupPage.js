@@ -66,7 +66,7 @@ class SignupPage extends Component {
       <>
         <StyledAuthFormWrapper>
           <StyledSignUpFormHeading>Choose a Username</StyledSignUpFormHeading>
-          <form onSubmit={this.handleSubmitAsync}>
+          <form data-test-id="usernameForm" id="usernameForm" onSubmit={this.handleSubmitAsync}>
             <StyledAuthInputWrapper>
               <StyledSignUpFormInputField
                 type="text"
@@ -74,9 +74,10 @@ class SignupPage extends Component {
                 id="usernameInput"
                 onChange={this.handleUsernameChange}
                 placeholder="Username"
+                data-test-id="usernameInput"
               />
             </StyledAuthInputWrapper>
-            <StyledAuthFormSubmitButton type="submit" value="submit" id="usernameSubmitButton">
+            <StyledAuthFormSubmitButton type="submit" value="submit" id="usernameSubmitButton" data-test-id="usernameSubmitButton">
               Submit
             </StyledAuthFormSubmitButton>
           </form>

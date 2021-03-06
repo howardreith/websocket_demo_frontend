@@ -14,7 +14,7 @@ export const StyledChatRoom = styled.div`
   width: 99%;
   border: 1px solid black;
   height: 85vh;
-  overflow: scroll;
+  overflow-y: scroll;
 `;
 
 export const StyledMessageTextBox = styled.textarea`
@@ -99,7 +99,7 @@ export class ChatRoomWithoutContext extends Component {
         <StyledHeaderWrapper>
           <h1>Howie Chat</h1>
         </StyledHeaderWrapper>
-        <StyledChatRoom>
+        <StyledChatRoom id="mainChatWindow" data-test-id="mainChatWindow">
           {messages.map((message, i) => (
             <div key={`${i}wrapper${message.message.replace(/\s/, '')}`}>
               <span key={`${i}sender${message.message.replace(/\s/, '')}`}>
@@ -110,11 +110,13 @@ export class ChatRoomWithoutContext extends Component {
           ))}
           <div ref={this.messagesEndRef} />
         </StyledChatRoom>
-        <StyledMessageTextForm onSubmit={this.handleSubmitAsync}>
+        <StyledMessageTextForm id="chatTextForm" data-test-id="chatTextForm" onSubmit={this.handleSubmitAsync}>
           <StyledMessageTextBox
             onKeyDown={this.onKeyDown}
             value={messageText}
             onChange={this.handleMessageTextChange}
+            id="messageTextBox"
+            data-test-id="messageTextBox"
           />
           <StyledSendButton type="submit" value="send" id="sendMessageButton" />
         </StyledMessageTextForm>
