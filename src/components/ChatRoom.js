@@ -1,13 +1,10 @@
 /* eslint-disable react/no-array-index-key */
 import React, { Component } from 'react';
-import { io } from 'socket.io-client';
+import * as PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { getLast50Messages } from './backend';
 import withAppContext from '../withAppContext';
 import { AppContextPropType } from '../helpers/PropTypeConstants';
-
-const backendUrl = window.location.href.includes('localhost') ? 'http://localhost:8080' : 'https://reithwebsocketdemo.herokuapp.com';
-const socket = io(backendUrl);
 
 export const StyledChatRoom = styled.div`
   margin: 3px;
@@ -51,6 +48,7 @@ export class ChatRoomWithoutContext extends Component {
   }
 
   async componentDidMount() {
+    const { socket } = this.props;
     const initialMessages = await getLast50Messages();
     this.setState({ messages: initialMessages.messages.reverse() });
 
@@ -72,6 +70,7 @@ export class ChatRoomWithoutContext extends Component {
   }
 
   async handleSubmitAsync(event) {
+    const { socket } = this.props;
     event.preventDefault();
     const { messageText } = this.state;
     const { appContext } = this.props;
@@ -129,4 +128,10 @@ export default withAppContext(ChatRoomWithoutContext);
 
 ChatRoomWithoutContext.propTypes = {
   appContext: AppContextPropType.isRequired,
+  socket: PropTypes.shape(
+    {
+      on: PropTypes.func.isRequired,
+      emit: PropTypes.func.isRequired,
+    },
+  ).isRequired,
 };

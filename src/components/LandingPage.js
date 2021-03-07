@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import { io } from 'socket.io-client';
 import withAppContext from '../withAppContext';
 import { AppContextPropType } from '../helpers/PropTypeConstants';
 import { signInWithUsername } from './backend';
 import SignupPage from './SignupPage';
 import ChatRoom from './ChatRoom';
+
+const backendUrl = window.location.href.includes('localhost') ? 'http://localhost:8080' : 'https://reithwebsocketdemo.herokuapp.com';
+const socket = io(backendUrl);
 
 class LandingPage extends Component {
   constructor(props) {
@@ -17,7 +21,7 @@ class LandingPage extends Component {
   async handleSubmitUsername(username) {
     const { appContext } = this.props;
     try {
-      await signInWithUsername(username);
+      await signInWithUsername(username, socket.id);
       this.setError(null);
       appContext.setUsername(username);
     } catch (e) {
@@ -40,7 +44,7 @@ class LandingPage extends Component {
           error={error}
         />
         )}
-        {appContext.username && <ChatRoom />}
+        {appContext.username && <ChatRoom socket={socket} />}
       </>
 
     );

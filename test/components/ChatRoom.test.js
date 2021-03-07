@@ -8,14 +8,6 @@ import * as backend from '../../src/components/backend';
 import { getLast50Messages } from '../../src/components/backend';
 import { asyncFlush } from '../../src/helpers/testHelpers/testHelpers';
 
-jest.mock('socket.io-client', () => {
-  const mockSocket = {
-    on: jest.fn(),
-    emit: jest.fn(),
-  };
-  return { io: jest.fn().mockImplementation(() => mockSocket) };
-});
-
 configure({ adapter: new Adaptor() });
 describe('ChatRoom', () => {
   let props;
@@ -33,7 +25,12 @@ describe('ChatRoom', () => {
     Element.prototype.scrollIntoView = jest.fn();
     backend.signInWithUsername = jest.fn();
     backend.getLast50Messages = jest.fn().mockResolvedValue({ messages: [] });
-    props = {};
+    props = {
+      socket: {
+        on: jest.fn(),
+        emit: jest.fn(),
+      },
+    };
     setUsername = jest.fn();
     username = 'DavidTheGnome';
   });
@@ -68,10 +65,9 @@ describe('ChatRoom', () => {
   it('should send a message to the websocket on submit', async () => {
     const sut = sutFactory();
     await asyncFlush(sut);
-    const mockSocket = io();
     sut.find('textarea[data-test-id="messageTextBox"]').simulate('change', { target: { value: 'how are you' } });
     sut.find('form[data-test-id="chatTextForm"]').simulate('submit');
     await asyncFlush(sut);
-    expect(mockSocket.emit).toHaveBeenCalledWith('message', { message: 'how are you', username: 'DavidTheGnome' });
+    expect(props.socket.emit).toHaveBeenCalledWith('message', { message: 'how are you', username: 'DavidTheGnome' });
   });
 });

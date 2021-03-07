@@ -1,6 +1,6 @@
 const backendUrl = window.location.href.includes('localhost') ? 'http://localhost:8080' : 'https://reithwebsocketdemo.herokuapp.com';
 
-export async function signInWithUsername(username) {
+export async function signInWithUsername(username, socketid) {
   const result = await fetch(`${backendUrl}/signin`, {
     method: 'post',
     headers: {
@@ -9,6 +9,7 @@ export async function signInWithUsername(username) {
     },
     body: JSON.stringify({
       username,
+      socketid,
     }),
   });
   if (result.ok) {

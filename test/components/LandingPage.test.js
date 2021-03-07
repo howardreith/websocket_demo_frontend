@@ -1,12 +1,22 @@
 import React from 'react';
 import { configure, mount } from 'enzyme';
 import Adaptor from 'enzyme-adapter-react-16';
+import { io } from 'socket.io-client';
 import LandingPage from '../../src/components/LandingPage';
 import TestContext from '../../src/helpers/testHelpers/TestContext';
 import * as backend from '../../src/components/backend';
 import { asyncFlush } from '../../src/helpers/testHelpers/testHelpers';
 import SignupPage from '../../src/components/SignupPage';
 import ChatRoom from '../../src/components/ChatRoom';
+
+jest.mock('socket.io-client', () => {
+  const mockSocket = {
+    on: jest.fn(),
+    emit: jest.fn(),
+    id: 'BXLN6FupkQIMzYvLAAAP',
+  };
+  return { io: jest.fn().mockImplementation(() => mockSocket) };
+});
 
 configure({ adapter: new Adaptor() });
 describe('LandingPage', () => {
@@ -40,7 +50,7 @@ describe('LandingPage', () => {
       sut.find('input[data-test-id="usernameInput"]').simulate('change', { target: { value: 'Sonic' } });
       sut.find('form[data-test-id="usernameForm"]').simulate('submit');
       await asyncFlush(sut);
-      expect(backend.signInWithUsername).toHaveBeenCalledWith('Sonic');
+      expect(backend.signInWithUsername).toHaveBeenCalledWith('Sonic', 'BXLN6FupkQIMzYvLAAAP');
       expect(setUsername).toHaveBeenCalledWith('Sonic');
     });
 
@@ -60,6 +70,17 @@ describe('LandingPage', () => {
       username = 'knuckles';
       const sut = sutFactory();
       expect(sut.find(ChatRoom).exists()).toBeTruthy();
+    });
+
+    it('should send a message to the websocket on submit', async () => {
+      username = 'DavidTheGnome';
+      const sut = sutFactory();
+      await asyncFlush(sut);
+      const mockSocket = io();
+      sut.find('textarea[data-test-id="messageTextBox"]').simulate('change', { target: { value: 'how are you' } });
+      sut.find('form[data-test-id="chatTextForm"]').simulate('submit');
+      await asyncFlush(sut);
+      expect(mockSocket.emit).toHaveBeenCalledWith('message', { message: 'how are you', username: 'DavidTheGnome' });
     });
   });
 });
