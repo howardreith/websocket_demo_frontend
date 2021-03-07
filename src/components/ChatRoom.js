@@ -100,7 +100,7 @@ export class ChatRoomWithoutContext extends Component {
           <h1>Howie Chat</h1>
         </StyledHeaderWrapper>
         <StyledChatRoom id="mainChatWindow" data-test-id="mainChatWindow">
-          {messages.map((message, i) => (
+          {messages.map((message, i) => message && message.message && message.messageSender && (
             <div key={`${i}wrapper${message.message.replace(/\s/, '')}`}>
               <span key={`${i}sender${message.message.replace(/\s/, '')}`}>
                 {`${message.messageSender}: `}
