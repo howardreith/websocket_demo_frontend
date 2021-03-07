@@ -11,7 +11,10 @@ export async function signInWithUsername(username) {
       username,
     }),
   });
-  return result.json().messages;
+  if (result.ok) {
+    return result.json().messages;
+  }
+  throw Error(`Username ${username} already in use.`);
 }
 
 export async function getLast50Messages() {

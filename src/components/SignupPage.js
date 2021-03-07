@@ -62,6 +62,7 @@ class SignupPage extends Component {
   }
 
   render() {
+    const { error } = this.props;
     return (
       <>
         <StyledAuthFormWrapper>
@@ -81,6 +82,7 @@ class SignupPage extends Component {
               Submit
             </StyledAuthFormSubmitButton>
           </form>
+          {error && <div id="usernameInUseMessage" data-test-id="usernameInUseMessage">Username already in use</div>}
         </StyledAuthFormWrapper>
       </>
     );
@@ -91,4 +93,9 @@ export default withAppContext(SignupPage);
 
 SignupPage.propTypes = {
   onHandleSubmitUsername: PropTypes.func.isRequired,
+  error: PropTypes.bool,
+};
+
+SignupPage.defaultProps = {
+  error: false,
 };

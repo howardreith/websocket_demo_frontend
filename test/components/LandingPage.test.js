@@ -43,6 +43,16 @@ describe('LandingPage', () => {
       expect(backend.signInWithUsername).toHaveBeenCalledWith('Sonic');
       expect(setUsername).toHaveBeenCalledWith('Sonic');
     });
+
+    it('should set an error when the username request throws and error', async () => {
+      backend.signInWithUsername.mockRejectedValue('ewwww');
+      const sut = sutFactory();
+      sut.find('input[data-test-id="usernameInput"]').simulate('change', { target: { value: 'Sonic' } });
+      sut.find('form[data-test-id="usernameForm"]').simulate('submit');
+      await asyncFlush(sut);
+      expect(sut.find('div[data-test-id="usernameInUseMessage"]').exists()).toBeTruthy();
+      expect(sut.find(ChatRoom).exists()).toBeFalsy();
+    });
   });
 
   describe('with a username set', () => {

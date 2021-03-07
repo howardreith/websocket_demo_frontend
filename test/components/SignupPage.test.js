@@ -12,7 +12,7 @@ describe('SignupPage', () => {
   }
 
   beforeEach(() => {
-    props = { onHandleSubmitUsername: jest.fn() };
+    props = { onHandleSubmitUsername: jest.fn(), error: false };
   });
 
   it('should submit the username', async () => {
@@ -21,5 +21,17 @@ describe('SignupPage', () => {
     sut.find('form[data-test-id="usernameForm"]').simulate('submit');
     await asyncFlush(sut);
     expect(props.onHandleSubmitUsername).toHaveBeenCalledWith('Sonic');
+  });
+
+  it('should show username in use when it is', () => {
+    props.error = true;
+    const sut = sutFactory();
+    expect(sut.find('div[data-test-id="usernameInUseMessage"]').exists()).toBeTruthy();
+  });
+
+  it('should not show username in use when it is not', () => {
+    props.error = false;
+    const sut = sutFactory();
+    expect(sut.find('div[data-test-id="usernameInUseMessage"]').exists()).toBeFalsy();
   });
 });
